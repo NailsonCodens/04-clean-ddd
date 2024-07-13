@@ -1,6 +1,4 @@
 import { UniqueEntityId } from '@/core/entities/unique-entitiy-id'
-import { Answer } from '../../enterprise/entities/answer'
-import { AnswerRepository } from '../repositories/answers-repository'
 import { QuestionsRepository } from '../repositories/question-repository'
 import { Question } from '../../enterprise/entities/question';
 
