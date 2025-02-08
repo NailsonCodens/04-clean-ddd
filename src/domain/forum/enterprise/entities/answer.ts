@@ -2,7 +2,7 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entitiy-id'
 import { Optional } from '@/core/types/optional'
 
-interface answerProps {
+export interface AnswerProps {
   content: string
   authorId: UniqueEntityId
   questionId: UniqueEntityId
@@ -10,7 +10,7 @@ interface answerProps {
   updatedAt?: Date
 }
 
-export class Answer extends Entity<answerProps> {
+export class Answer extends Entity<AnswerProps> {
   get authorId() {
     return this.props.authorId
   }
@@ -45,7 +45,7 @@ export class Answer extends Entity<answerProps> {
   }
 
   static create(
-    props: Optional<answerProps, 'createdAt'>,
+    props: Optional<AnswerProps, 'createdAt'>,
     id?: UniqueEntityId,
   ) {
     const answer = new Answer(

@@ -1,18 +1,18 @@
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import { makeQuestion } from 'test/factories/make-question'
-import { DeleteQuestionUseCase } from './delete-question'
+import { EditQuestionUseCase } from './edit-question'
 import { UniqueEntityId } from '@/core/entities/unique-entitiy-id'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let sut: DeleteQuestionUseCase
+let sut: EditQuestionUseCase
 
-describe('Delete Question', () => {
+describe('Edit Question', () => {
   beforeEach(() => {
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
-    sut = new DeleteQuestionUseCase(inMemoryQuestionsRepository)
+    sut = new EditQuestionUseCase(inMemoryQuestionsRepository)
   })
 
-  it('Should be able to delete a question', async () => {
+  it('Should be able to edit a question', async () => {
     const newQuestion = makeQuestion(
       {
         authorId: new UniqueEntityId('author-1'),
@@ -23,14 +23,19 @@ describe('Delete Question', () => {
     inMemoryQuestionsRepository.create(newQuestion)
 
     await sut.execute({
-      questionId: 'question-1',
+      questionId: newQuestion.id.toValue(),
       authorId: 'author-1',
+      title: 'Pergunte teste',
+      content: 'Conteudo teste',
     })
 
-    expect(inMemoryQuestionsRepository.items).toHaveLength(0)
+    expect(inMemoryQuestionsRepository.items[0]).toMatchObject({
+      title: 'Pergunte teste',
+      content: 'Conteudo teste',
+    })
   })
 
-  it('Should not be able to delete a question from another user', async () => {
+  it('Should not be able to edit a question from another user', async () => {
     const newQuestion = makeQuestion(
       {
         authorId: new UniqueEntityId('author-1'),
@@ -42,8 +47,10 @@ describe('Delete Question', () => {
 
     expect(() => {
       return sut.execute({
-        questionId: 'question-1',
+        questionId: newQuestion.id.toValue(),
         authorId: 'author-2',
+        content: 'teste 2',
+        title: 'teste 2',
       })
     }).rejects.toBeInstanceOf(Error)
   })
