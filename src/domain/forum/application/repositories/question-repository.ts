@@ -1,8 +1,6 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { Question } from '../../enterprise/entities/question'
 
-interface
-
 export interface QuestionsRepository {
   findByid(id: string): Promise<Question | null>
   findBySlug(slug: string): Promise<Question | null>
