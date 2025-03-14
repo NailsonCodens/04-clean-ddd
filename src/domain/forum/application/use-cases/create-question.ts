@@ -4,7 +4,7 @@ import { Question } from '../../enterprise/entities/question';
 
 interface CreateQuestionUseCaseRequest {
     authorId: string;
-    title: string;
+  title: string
     content: string;
 }
 
